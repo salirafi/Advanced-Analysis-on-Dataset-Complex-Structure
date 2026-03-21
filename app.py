@@ -1,13 +1,6 @@
+#!/usr/bin/env python3
 """
-analysis_app.py
----------------
-Flask application for the Recipe Bloom **Analysis** page.
-
-Serves the interactive carousel of visualisations (ingredient network,
-nutritional landscape, cooking duration) at routes / and /analysis.
-
-Run with:
-    python analysis_app.py
+Source code to run the dashboard app.
 """
 
 from flask import Flask, render_template
