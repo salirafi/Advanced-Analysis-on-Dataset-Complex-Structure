@@ -11,9 +11,9 @@
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════════════
+<!-- ==================
      LEFT SIDEBAR NAV
-     ══════════════════════════════════════════════════════ -->
+     ================== -->
 <nav class="sidenav" id="sidenav">
 
   <!-- Collapse/expand toggle -->
@@ -99,9 +99,9 @@
   </div>
 </nav>
 
-<!-- ══════════════════════════════════════════════════════
+<!-- ==================
      MAIN CONTENT
-     ══════════════════════════════════════════════════════ -->
+     ================== -->
 <main>
   <div class="hero">
     <h1>Unveiling Complex Structures in The World of <em>Recipes</em></h1>
@@ -120,9 +120,9 @@
     <div class="slide-viewport" id="viewport">
       <div class="slides-track" id="track">
 
-        <!-- ══════════════════════════════════════
+        <!-- ==================
              SLIDE 0 — HOME / DATASET OVERVIEW
-             ══════════════════════════════════════ -->
+             ================== -->
         <div class="slide home-slide">
           <div class="home-card">
             <div class="home-toolbar">
@@ -183,9 +183,9 @@
           </div>
         </div>
 
-        <!-- ══════════════════════════════════════
+        <!-- ==================
              SLIDE 1 — INGREDIENT NETWORK
-             ══════════════════════════════════════ -->
+             ================== -->
         <div class="slide">
           <div class="plot-card">
             <div class="plot-toolbar">
@@ -306,9 +306,9 @@
           </div>
         </div>
 
-        <!-- ══════════════════════════════════════
+        <!-- ==================
              SLIDE 2 — NUTRITIONAL LANDSCAPE
-             ══════════════════════════════════════ -->
+             ================== -->
         <div class="slide">
           <div class="plot-card">
             <div class="plot-toolbar">
@@ -426,9 +426,9 @@
           </div>
         </div>
 
-        <!-- ══════════════════════════════════════
+        <!-- ==================
              SLIDE 3 — COOKING DURATION WINDROSE
-             ══════════════════════════════════════ -->
+             ================== -->
         <div class="slide">
           <div class="plot-card">
             <div class="plot-toolbar">
@@ -470,9 +470,9 @@
           </div>
         </div>
 
-        <!-- ══════════════════════════════════════
+        <!-- ==================
             SLIDE 4 — FEATURE IMPORTANCE
-            ══════════════════════════════════════ -->
+            ================== -->
         <div class="slide">
           <div class="plot-card">
             <div class="plot-toolbar">
@@ -620,9 +620,9 @@
 </main>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════════════
+/* ====================================
    SIDEBAR — collapse / expand
-   ═══════════════════════════════════════════════════════════════════════ */
+   ==================================== */
 const sidenav       = document.getElementById('sidenav');
 const sidenavToggle = document.getElementById('sidenavToggle');
 
@@ -642,9 +642,9 @@ sidenavToggle.addEventListener('click', () => {
   setTimeout(() => resizePlot(current), 300);
 });
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* ====================================
    PLOTLY CONFIG & SHARED LAYOUT HELPERS
-   ═══════════════════════════════════════════════════════════════════════ */
+   ==================================== */
 
 /** Default Plotly config used across all charts */
 const CFG = {
@@ -656,7 +656,7 @@ const CFG = {
   toImageButtonOptions: { format: 'png', scale: 2 },
 };
 
-/** Default Plotly config for insight sub-charts (no zoom, simpler bar) */
+/** Default Plotly config for insight sub-charts */
 const CFG_SUB = {
   responsive: true,
   displayModeBar: true,
@@ -668,8 +668,6 @@ const CFG_SUB = {
 
 /**
  * Merge fig.layout with sane autosize / margin defaults.
- * @param {object} fig - Plotly figure object
- * @param {object} opts.marginDefaults - override default margin values
  */
 function patchLayout(fig, opts = {}) {
   const base = fig.layout?.margin || {};
@@ -700,9 +698,9 @@ function subChartBaseLayout(extra = {}) {
   };
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* ====================================
    FIGURE DATA (injected by Flask / Jinja)
-   ═══════════════════════════════════════════════════════════════════════ */
+   ==================================== */
 
 // Main slide figures (heavy — only network fig is loaded on demand)
 const LEIDEN_FIG                         = {{ leiden_fig_json | safe }};
@@ -732,9 +730,9 @@ const CAPTION_FEATURE_A  = { label: 'Fig 04-A', text: {{ feature_caption  | tojs
 const CAPTION_FEATURE_B  = { label: 'Fig 04-B', text: {{ reliable_caption  | tojson }}, title: 'Category Reliability' };
 
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* ====================================
    CAROUSEL STATE
-   ═══════════════════════════════════════════════════════════════════════ */
+   ==================================== */
 
 const TOTAL   = 5;
 let current   = 0;
@@ -748,7 +746,7 @@ let nutritionLabelsOn       = false;
 let showingFeatureReliability = false;
 let featureLabelsOn         = false;
 
-// Build-once guards (prevents re-rendering already-built charts)
+// Build-once guards
 const builtSlides = new Set();
 let leidenCommunityBuilt          = false;
 let networkHeatmapBuilt           = false;
@@ -759,9 +757,9 @@ let nutritionClusterCategoriesBuilt = false;
 let featureRatingDistributionBuilt = false;
 let featureDecompCombinedBuilt = false;
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* ====================================
    INSIGHT PANEL TOGGLE
-   ═══════════════════════════════════════════════════════════════════════ */
+   ==================================== */
 
 document.querySelectorAll('.insight-btn').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -789,9 +787,9 @@ document.querySelectorAll('.insight-btn').forEach(btn => {
   });
 });
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* ===================
    LABEL TOGGLE HELPERS
-   ═══════════════════════════════════════════════════════════════════════ */
+   =================== */
 
 function applyNetworkLabelMode() {
   const el = document.getElementById('chart1');
@@ -846,9 +844,9 @@ function applyNutritionLabelMode() {
   });
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* ====================================
    CAPTION HELPERS
-   ═══════════════════════════════════════════════════════════════════════ */
+   ==================================== */
 
 function setCaption(labelEl, textEl, titleEl, cap) {
   document.getElementById(labelEl).textContent = cap.label;
@@ -871,9 +869,9 @@ function updateFeatureCaption() {
     showingFeatureReliability ? CAPTION_FEATURE_B : CAPTION_FEATURE_A);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* ====================================
    CHART BUILDERS — main slides
-   ═══════════════════════════════════════════════════════════════════════ */
+   ==================================== */
 
 /** Build Slide 1: co-occurrence network (built lazily on first visit) */
 function buildNetworkChart() {
@@ -928,9 +926,9 @@ function buildChart4() {
   });
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   CHART BUILDERS — insight sub-charts (lazy, built once)
-   ═══════════════════════════════════════════════════════════════════════ */
+/* ====================================
+   CHART BUILDERS — insight sub-charts
+   ==================================== */
 
 function buildInsightSubChart(containerId, figData, layoutOverride, builtFlag, setBuilt) {
   const el = document.getElementById(containerId);
@@ -1037,9 +1035,9 @@ function buildFeatureDecompCombinedChart() {
   );
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* ====================================
    VARIANT SWAPS
-   ═══════════════════════════════════════════════════════════════════════ */
+   ==================================== */
 
 function swapToLeiden() {
   const fig = structuredClone(LEIDEN_FIG);
@@ -1133,9 +1131,9 @@ function swapToFeatureReliability() {
   });
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* ====================================
    WINDROSE HELPERS
-   ═══════════════════════════════════════════════════════════════════════ */
+   ==================================== */
 
 function normaliseWindroseFigure(fig) {
   fig.layout = {
@@ -1174,9 +1172,9 @@ function resizeWindrosePlot() {
   Plotly.Plots.resize(el);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* ====================================
    CAROUSEL NAVIGATION
-   ═══════════════════════════════════════════════════════════════════════ */
+   ==================================== */
 
 const track    = document.getElementById('track');
 const viewport = document.getElementById('viewport');
@@ -1290,9 +1288,9 @@ viewport.addEventListener('touchend',   e => {
 /* ── Enter button on home slide ── */
 document.getElementById('enterBtn').addEventListener('click', () => goTo(1));
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* ====================================
    VARIANT TOGGLE BUTTONS
-   ═══════════════════════════════════════════════════════════════════════ */
+   ==================================== */
 
 /* Slide 1: Network graph variant */
 document.getElementById('toggleleidenBtn').addEventListener('click', () => {
@@ -1363,9 +1361,9 @@ document.getElementById('toggleFeatureLabelsBtn').addEventListener('click', () =
   applyFeatureLabelMode();
 });
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* ====================================
    WINDOW RESIZE — reflow all visible / built charts
-   ═══════════════════════════════════════════════════════════════════════ */
+   ==================================== */
 
 window.addEventListener('resize', () => {
   // Re-anchor carousel track
@@ -1391,11 +1389,11 @@ window.addEventListener('resize', () => {
   resizeWindrosePlot();
 });
 
-/* ═══════════════════════════════════════════════════════════════════════
+/* ====================================
    INIT
-   ═══════════════════════════════════════════════════════════════════════ */
+   ==================================== */
 
-// Pre-build slide 2 in the background (it uses heavy PCA data already loaded)
+// Pre-build slide 2 in the background
 buildChart2();
 
 syncUI();
