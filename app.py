@@ -9,7 +9,7 @@ import json
 
 from src.content import *
 
-# ── Paths ──────────────────────────────────────────────────────────────────
+# Paths
 
 BASE_DIR            = Path(__file__).resolve().parent
 
@@ -25,7 +25,8 @@ WINDROSE_JSON_PATH  = WINDROSE_OUTPUT_DIR / "plot_duration.json"
 FEATURE_OUTPUT_DIR = BASE_DIR / "plots"
 FEATURE_JSON_PATH  = FEATURE_OUTPUT_DIR / "plot_features.json"
 
-# ── Pre-build all figures at startup (cached as JSON strings) ──────────────
+# Pre-build all figures at startup
+# cached as JSON strings
 
 def _load_duration_payload():
     if not WINDROSE_JSON_PATH.exists():
@@ -57,8 +58,8 @@ def _load_nutrition_payload():
 
 def _build_figures():
     """
-    Render every Plotly figure once at startup and serialise to JSON.
-    Storing raw JSON strings avoids repeated serialisation on each request.
+    Render every Plotly figure once at startup and serialise to JSON,
+    Storing raw JSON strings avoids repeated serialisation on each request
     """
     figs = {}
 
@@ -116,10 +117,9 @@ def _build_figures():
 
 _FIGS = _build_figures()
 
-# ── Flask app ──────────────────────────────────────────────────────────────
+# Build the app
 
 app = Flask(__name__)
-
 
 @app.route("/")
 @app.route("/analysis")
@@ -129,7 +129,7 @@ def index():
         "index.html",
         active_page="analysis",
 
-        # ── Figure JSON ──
+        # Figure JSON
         network_fig_json                    = _FIGS["network"],
         leiden_fig_json                     = _FIGS["leiden"],
         nutrition_fig_json                  = _FIGS["nutrition_pca_landscape"],
@@ -149,7 +149,7 @@ def index():
         feature_decomp_combined_fig_json = _FIGS.get("feature_decomp_combined", "{}"),
         feature_meta = _FIGS.get("feature_meta", {}),
 
-        # ── Network / Leiden captions & insights ──
+        # Network / Leiden captions & insights
         network_caption             = NETWORK_CAPTION,
         network_insight_title       = NETWORK_INSIGHT_TITLE,
         network_insight_subtitle    = NETWORK_INSIGHT_SUBTITLE,
@@ -173,7 +173,7 @@ def index():
         leiden_insight_read         = LEIDEN_INSIGHT_READ,
         leiden_insight_method       = LEIDEN_INSIGHT_METHOD,
 
-        # ── Nutrition captions & insights ──
+        # Nutrition captions & insights
         nutrition_caption               = NUTRITION_CAPTION,
         nutrition_insight_title         = NUTRITION_INSIGHT_TITLE,
         nutrition_insight_subtitle      = NUTRITION_INSIGHT_SUBTITLE,
@@ -192,14 +192,14 @@ def index():
         nutheat_insight_interpret       = NUTHEAT_INSIGHT_INTERPRET,
         nutheat_insight_method          = NUTHEAT_INSIGHT_METHOD,
 
-        # ── Windrose captions & insights ──
+        # Windrose captions & insights
         windrose_caption            = WINDROSE_CAPTION,
         windrose_insight_title      = WINDROSE_INSIGHT_TITLE,
         windrose_insight_subtitle   = WINDROSE_INSIGHT_SUBTITLE,
         windrose_insight_findings   = WINDROSE_INSIGHT_FINDINGS,
         windrose_insight_method     = WINDROSE_INSIGHT_METHOD,
 
-        # ── Feature importance captions & insights ──
+        # Feature importance captions & insights
         feature_caption            = FEATURE_CAPTION,
         feature_insight_title      = FEATURE_INSIGHT_TITLE,
         feature_insight_subtitle   = FEATURE_INSIGHT_SUBTITLE,
@@ -221,6 +221,5 @@ def index():
 
     )
 
-
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run()
