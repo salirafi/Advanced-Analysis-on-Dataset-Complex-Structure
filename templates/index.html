@@ -614,7 +614,7 @@
 
   </div><!-- /carousel-outer -->
 
-  <div class="counter" id="counterEl"><strong id="cntCur">0</strong> / <span id="cntTotal">4</span></div>
+  <div class="counter" id="counterEl"><strong id="cntCur">0</strong> / <span>4</span></div>
   <div class="dots" id="dots"></div>
   <footer>© Sayyed A. Rafi · built with Flask &amp; Plotly</footer>
 </main>
@@ -1182,8 +1182,8 @@ const btnLeft  = document.getElementById('btnLeft');
 const btnRight = document.getElementById('btnRight');
 const dotsEl   = document.getElementById('dots');
 const cntCur   = document.getElementById('cntCur');
-const cntTotal = document.getElementById('cntTotal');
-cntTotal.textContent = TOTAL;
+// const cntTotal = document.getElementById('cntTotal');
+// cntTotal.textContent = TOTAL;
 
 /** Return a promise that resolves once the target slide's chart is built */
 function ensureBuilt(idx) {
