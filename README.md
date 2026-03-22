@@ -18,7 +18,13 @@ The dashboard can then simply be run, in the parent folder, by typing
 ```
 python app.py
 ```
-The [plots](plots) folder already contains all the necessary JSON files to render the figures. The dataset itself is not uploaded to this repo due to size and copyright, hence if the user wants to download the dataset themselves, they can do so by navigating to [here](https://www.kaggle.com/datasets/irkaal/foodcom-recipes-and-reviews) to download or they can simply run `download_data.py` and it will save the raw data to [/data/raw](/data/raw) folder. Then, run 
+The [plots](plots) folder already contains all the necessary JSON files to render the figures. 
+
+The dataset itself is not uploaded to this repo due to size and copyright, hence if the user wants to download the dataset themselves, they can do so by navigating to [here](https://www.kaggle.com/datasets/irkaal/foodcom-recipes-and-reviews) to download or they can simply run 
+```
+python download_data.py
+```
+and it will save the raw data to [/data/raw](/data/raw) folder. Then, run 
 ```
 python preprocessing.py
 ```
