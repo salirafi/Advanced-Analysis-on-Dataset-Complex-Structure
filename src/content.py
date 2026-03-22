@@ -188,9 +188,11 @@ Maximizing this quantity means that the algorithm finds partitions where connect
 NUTRITION_CAPTION = """
 A two-dimensional nutritional landscape of recipes constructed using Principal Component Analysis (PCA),
 where each point represents a recipe positioned by its overall nutritional composition represented by the first and second principal component. 
-Click "Labels Off" button to toggle on the axes' labels and ticks.
-Colors indicate clusters identified using a Gaussian Mixture Model (GMM) to reveal natural groupings of recipes based on their nutritional structure.
+Colors indicate clusters identified using a Gaussian Mixture Model (GMM) to reveal natural groupings/clusterings of recipes based on their nutritional structure.
+The contour line indicates the 3-sigma density for each cluster.
+The points plotted are not the entire recipes in the dataset, where here, they are sampled from each cluster population based on the cluster confidence (from the GMM).
 See "Insight" for explanation.
+Click "Labels Off" button to toggle on the axes' labels and ticks.
 """
 NUTRITION_INSIGHT_TITLE = "The Nutritional Landscape of Recipes"
 NUTRITION_INSIGHT_SUBTITLE = "How recipes naturally organize by nutrition?"
@@ -210,7 +212,7 @@ alone it only reveals structure, not segmentation.
 To help interpretation, we overlay a clustering model, specifically a <a href=https://www.ibm.com/think/topics/gaussian-mixture-model#:~:text=A%20Gaussian%20mixture%20model%20(GMM,weighted%20by%20a%20mixing%20coefficient.>Gaussian Mixture Model</a> (GMM),
 which groups recipes into (seven) clusters. Unlike simpler methods, GMM assumes that each cluster follows a probabilistic distribution,
 allowing soft boundaries and better handling of overlapping nutritional patterns.
-Rather than plotting individual points alone, the figure overlays <strong>contour lines</strong> for each cluster, which trace the density regions of each group.
+Rather than plotting individual points alone, the figure overlays <strong>contour lines</strong> for each cluster, which trace the 3-sigma density regions of each group.
 This makes it easier to see how clusters are shaped, where they overlap, and which regions of the nutritional space they dominate, 
 without the individual points obscuring the broader structure.
 </p>
@@ -623,7 +625,7 @@ The three smaller reviewer circles means that reviewer consistency (Reviewer Loo
 all play similar roles: 
 they contribute to both star predictions and gap predictions, but contribute almost nothing to predicting what a reviewer will write in their text. 
 Lastly, the reviewer group as a whole lives on the right side of the ternary, between Rating and Gap, and away from Sentiment. 
-<strong>This means reviewer identity is the primary source of the star-sentiment disconnect. It "inflates" stars without inflating text.</strong>
+This means that <strong>reviewer identity is the primary source of the star-sentiment disconnect in which it "inflates" stars without inflating text.</strong>
 </p>
 """
 FEATURE_INSIGHT_FINDINGS_ORANGE = """
@@ -634,9 +636,9 @@ The zero Sentiment contribution is not surprising because sentiment score cannot
 so it was deliberately excluded from the Sentiment model's feature set. 
 But the higher Gap contribution compared to Rating is genuinely interesting. 
 <strong>The sentiment score is a stronger predictor of inflation than it is of stars.</strong> 
-What this means is that when a reviewer's text is genuinely positive, the gap between their star and their text actually widens 
+What this means is that when a reviewer's text is genuinely positive, the gap between their star and their text may widen 
 because their star is constrained by the ceiling at five while their sentiment can only go so high, but generous reviewers are already at five stars. 
-Conversely, mildly negative text produces a large positive gap because the star stays at four while the sentiment score drops. 
+Conversely, mildly negative text produces a large positive gap because the star would probably stay at four while the sentiment score drops. 
 The sentiment score ends up capturing this asymmetric relationship more through the gap than through the raw star.
 The circle is also arguably large in size, confirming that Sentiment Scaled is one of the more globally important features in the analysis.
 </p>
@@ -650,15 +652,15 @@ All three circles sit in the left half of the triangle, pulled toward the Sentim
 Review Length is the largest of the three and sits closest to the Sentiment corner. 
 Long reviews strongly predict sentiment scores (people who write at length tend to be more analytical and their text scores lower on sentiment as a result) 
 but review length contributes much less to predicting stars or the gap. 
-This makes sense because <strong>the length of what someone writes does not guarantee what they click.</strong>
+This makes sense because the length of what someone writes does not guarantee what they click.
 Days Since Publication sits slightly higher and more toward the center. 
-<strong>Reviews written much later after a recipe was published tend to come from cooks who specifically sought the recipe out rather than discovering it casually.</strong 
+<strong>Reviews written much later after a recipe was published tend to come from cooks who specifically sought the recipe out rather than discovering it casually.</strong> 
 This changes both what they write and slightly how they rate, but the text effect is stronger.
 Review Position sits closest to the center of the three which means that 
-<strong>being the hundredth reviewer of a recipe as opposed to the first influences everything slightly.</strong> 
+being the hundredth reviewer of a recipe as opposed to the first influences everything slightly.
 The recipe's reputation has been established, expectations are set, the community has filtered toward people who already expect to like it.
 Based on these, what people write is more sensitive to the circumstances of the review than what stars they click. 
-<strong>Stars are more habitual and identity-driven. Text is more situational and responsive to context.</strong>
+Stars are more habitual and identity-driven. Text is more situational and responsive to context.
 </p>
 """
 
@@ -666,11 +668,11 @@ FEATURE_INSIGHT_FINDINGS_GREEN = """
 <p>
 The green circles are the recipe group, which contains the largest number of features: 
 all the nutritional columns, time features, complexity metrics, etc. 
-The most striking pattern from this group is the spread, distributed across almost the entire interior space of the triangle. 
+The obvious pattern from this group is the spread, distributed across middle space of the triangle. 
 Different recipe attributes play fundamentally different roles in the three models, 
 and <strong>there is no single story for "recipe features" the way there is for "reviewer features" or "context features."</strong>
-What is more interesting, there is a visible diagonal band of features running from the Sentiment corner toward the middle between Gap and Rating.
-This means most recipe features split their importance roughly between Rating and Gap with a moderate Sentiment contribution. 
+Finally, the diagonal band of features running from the Sentiment corner toward the middle between Gap and Rating 
+means that most recipe features split their importance roughly between Rating and Gap with a moderate Sentiment contribution. 
 They matter for predicting stars and they contribute to gap, but they also weakly predict text sentiment.
 </p>
 """
