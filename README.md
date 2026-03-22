@@ -10,9 +10,9 @@ The dashboard is structured as PowerPoint-like with a total of five slides, incl
 
 The dashboard can be run with `Python 3.11` and it is recommended to do so within a virtual environment to avoid dependencies' conflicts. Install flask first by running
 ```
-pip install flask
+pip install Flask
 ```
-It is enough to run the dashboard. However, if the user wants to run the full source code, install from `requirements.txt` instead.
+with a capital "F". It is enough to run the dashboard. However, if the user wants to run the full source code, install from `requirements.txt` instead.
 
 The dashboard can then simply be run, in the parent folder, by typing
 ```
